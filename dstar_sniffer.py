@@ -11,7 +11,8 @@ def eth_addr (a) :
 if __name__ == "__main__":
 
 	try:
-		s = socket.socket( socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003))
+		s = socket.socket(socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003))
+		s.setsockopt(socket.SOL_SOCKET, 25, 'eth0') # Bind to device
 	except socket.error , msg:
 		print 'Socket could not be created. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
 		sys.exit()
