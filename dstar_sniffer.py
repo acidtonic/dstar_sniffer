@@ -3,8 +3,9 @@
 import socket, sys
 from struct import *
 
-iface = "eth0"
-controller_ip = ""
+iface = "enp0s31f6"
+controller_ip = "172.16.0.10"
+voice_port = 40000
 
 def eth_addr (a) :
     b = "%.2x:%.2x:%.2x:%.2x:%.2x:%.2x" % (ord(a[0]) , ord(a[1]) , ord(a[2]), ord(a[3]), ord(a[4]) , ord(a[5]))
@@ -54,8 +55,6 @@ if __name__ == "__main__":
 
 			#UDP packets
 			if protocol == 17 and (s_addr == controller_ip or d_addr == controller_ip):
-				print 'Destination MAC : ' + eth_addr(packet[0:6]) + ' Source MAC : ' + eth_addr(packet[6:12]) + ' Protocol : ' + str(eth_protocol)
-				print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
 				u = iph_length + eth_length
 				udph_length = 8
 				udp_header = packet[u:u+8]
@@ -67,6 +66,11 @@ if __name__ == "__main__":
 				length = udph[2]
 				checksum = udph[3]
 
+				if dest_port != voice_port:
+					continue
+
+				print 'Destination MAC : ' + eth_addr(packet[0:6]) + ' Source MAC : ' + eth_addr(packet[6:12]) + ' Protocol : ' + str(eth_protocol)
+				print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
 				print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port) + ' Length : ' + str(length) + ' Checksum : ' + str(checksum)
 
 				h_size = eth_length + iph_length + udph_length
