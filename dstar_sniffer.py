@@ -3,6 +3,9 @@
 import socket, sys
 from struct import *
 
+iface = "eth0"
+controller_ip = ""
+
 def eth_addr (a) :
     b = "%.2x:%.2x:%.2x:%.2x:%.2x:%.2x" % (ord(a[0]) , ord(a[1]) , ord(a[2]), ord(a[3]), ord(a[4]) , ord(a[5]))
     return b
@@ -12,7 +15,7 @@ if __name__ == "__main__":
 
 	try:
 		s = socket.socket(socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003))
-		s.setsockopt(socket.SOL_SOCKET, 25, 'eth0') # Bind to device
+		s.setsockopt(socket.SOL_SOCKET, 25, iface) # Bind to device
 	except socket.error , msg:
 		print 'Socket could not be created. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
 		sys.exit()
@@ -49,9 +52,8 @@ if __name__ == "__main__":
 			s_addr = socket.inet_ntoa(iph[8]);
 			d_addr = socket.inet_ntoa(iph[9]);
 
-
 			#UDP packets
-			if protocol == 17 :
+			if protocol == 17 and (s_addr == controller_ip or d_addr == controller_ip):
 				print 'Destination MAC : ' + eth_addr(packet[0:6]) + ' Source MAC : ' + eth_addr(packet[6:12]) + ' Protocol : ' + str(eth_protocol)
 				print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
 				u = iph_length + eth_length
