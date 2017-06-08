@@ -77,5 +77,6 @@ if __name__ == "__main__":
 
 				#get data from the packet
 				data = packet[h_size:]
-				print 'Data : ' + data
+				print 'Data (str): ' + data
+				print "Data (hex): " + ":".join("{:02x}".format(ord(c)) for c in s)
 
