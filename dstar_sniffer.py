@@ -3,7 +3,7 @@
 import socket, sys
 from struct import *
 import ConfigParser
-import dstar_packet
+import dstar
 
 if __name__ == "__main__":
 
@@ -11,7 +11,7 @@ if __name__ == "__main__":
 	config = ConfigParser.ConfigParser()
 	config.read("dstar_sniffer.conf")
 	controller_ip = config.get("controller", "ip")
-	controller_port = config.get("controller", "port")
+	controller_port = config.getint("controller", "port")
 	controller_iface = config.get("controller", "iface")
 
 	try:
@@ -68,4 +68,4 @@ if __name__ == "__main__":
 				# get data from the packet
 				data = packet[h_size:]
 
-				dstar_parse(data)
+				dstar.parse(data)
