@@ -5,7 +5,7 @@ from struct import *
 
 iface = "enp0s31f6"
 controller_ip = "172.16.0.10"
-voice_port = 40000
+data_port = 20000
 
 def eth_addr (a) :
 	b = "%.2x:%.2x:%.2x:%.2x:%.2x:%.2x" % (ord(a[0]) , ord(a[1]) , ord(a[2]), ord(a[3]), ord(a[4]) , ord(a[5]))
@@ -66,12 +66,11 @@ if __name__ == "__main__":
 				length = udph[2]
 				checksum = udph[3]
 
-				if source_port != voice_port and dest_port != voice_port:
+				if source_port != data_port and dest_port != data_port:
 					continue
 
-				print 'Destination MAC : ' + eth_addr(packet[0:6]) + ' Source MAC : ' + eth_addr(packet[6:12]) + ' Protocol : ' + str(eth_protocol)
-				print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
-				print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port) + ' Length : ' + str(length) + ' Checksum : ' + str(checksum)
+				print 'Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
+				print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port)
 
 				h_size = eth_length + iph_length + udph_length
 				data_size = len(packet) - h_size
