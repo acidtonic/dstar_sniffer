@@ -9,6 +9,7 @@ if __name__ == "__main__":
 
 	# Read configuration file.
 	config = ConfigParser.ConfigParser()
+	config.read("dstar_sniffer.conf")
 	controller_ip = config.get("controller", "ip")
 	controller_port = config.get("controller", "port")
 	controller_iface = config.get("controller", "iface")
