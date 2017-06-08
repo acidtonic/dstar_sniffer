@@ -77,6 +77,12 @@ if __name__ == "__main__":
 
 				#get data from the packet
 				data = packet[h_size:]
-				print 'Data (str): ' + data
-				print "Data (hex): " + ":".join("{:02x}".format(ord(c)) for c in data)
 
+				#print 'Data (str): ' + data
+				#print "Data (hex): " + ":".join("{:02x}".format(ord(c)) for c in data)
+				dstar = unpack('!11c8s8s8s8s4s', data)
+
+				print "Rpt2: " + dstar[2]
+				print "Rpt1: " + dstar[3]
+				print "UR: " + dstar[4]
+				print "MY: " + dstar[5] + " /" + dstar[6]
