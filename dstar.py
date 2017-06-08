@@ -12,7 +12,7 @@ def parse(data):
 			# DV packet
 			print "DV PACKET!!!"
 			print "Data (hex): " + ":".join("{:02x}".format(ord(c)) for c in data)
-			print "Data (str): " + data
+			print "START from rptr: cntr=%02x %02x, streamID=%d,%d, flags=%02x:%02x:%02x, my=%.8s, sfx=%.4s, ur=%.8s, rpt1=%.8s, rpt2=%.8s" % (pkt[4], pkt[5], pkt[14], pkt[15], pkt[17], pkt[18], pkt[19], pkt[44], pkt[52], pkt[36], pkt[28], pkt[20])
 		
 
 
