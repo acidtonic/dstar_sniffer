@@ -10,9 +10,8 @@ def parse(data):
 		and packet[7] == 0x12 and packet[10] == 0x20 and packet[8] == 0x00 and \
 		(packet[9] == 0x30 or packet[9] == 0x13 or packet[9] == 0x16):
 			# DV packet detected!
-			print "DV PACKET!!!"
-
 			if data_len == 58:
+				print "DV INITIAL PACKET (routing info)"
 				rpt2 = data[20:8]
 				rpt1 = data[28:8]
 				ur = data[36:8]
@@ -20,6 +19,10 @@ def parse(data):
 				sfx = data[52:4]
 
 				print "START from rptr: cntr=%02x %02x, streamID=%d,%d, flags=%02x:%02x:%02x, my=%.8s, sfx=%.4s, ur=%.8s, rpt1=%.8s, rpt2=%.8s" % (packet[4], packet[5], packet[14], packet[15], packet[17], packet[18], packet[19], my, sfx, ur, rpt1, rpt2)
+			elif data_len == 29:
+				print "DV VOICE+SLOW_DATA PACKET"
+			elif data_len == 32:
+				print "FINAL PACKET??"
 		
 
 
