@@ -6,7 +6,7 @@ def free_text(stream_data):
 	txt = ""
 	content = stream_data[3:]
 	for c in range(0, len(content)):
-		if (c % 6 == 0) and (content[c] == '@' or (content[c] >= 'A' and content[c] <= 'Z')):
+		if (c % 6 == 0) and (content[c] == '@' or (content[c] >= 'A' and content[c] <= 'C')):
 			for i in range(0, 5):
 				c = c + 1
 				txt = txt + content[c]
@@ -59,7 +59,7 @@ def parse_packet(data):
 			elif data_len == 29 or data_len == 32:
 				if packet[16] & 0x40:
 					print "END OF STREAM %d,%d" % (packet[14], packet[15])
-					print parse_data(received_data[packet[14] + packet[15]])
+					parse_data(received_data[packet[14] + packet[15]])
 
 				else:
 					if data_len == 32:
