@@ -9,8 +9,8 @@ the slow data and routing information found in every DV transmission.
 This project is not in alpha stage yet :( we are working every day to get it done as soon as possible.
 
 ## Useful links
-[Slow speed data] (http://www.qsl.net/kb9mwr/projects/dv/dstar/Slow%20Data.pdf)
-[UDP frames] (http://www.qsl.net/kb9mwr/projects/dv/dstar/formats%20of%20files%20and%20UDP-streams%20used%20on%20D-STAR.pdf)
+- [Slow speed data] (http://www.qsl.net/kb9mwr/projects/dv/dstar/Slow%20Data.pdf)
+- [UDP frames] (http://www.qsl.net/kb9mwr/projects/dv/dstar/formats%20of%20files%20and%20UDP-streams%20used%20on%20D-STAR.pdf)
 
 ## Scramble Slow speed data example
 dv_frame.data[0] ^= 0x70;
