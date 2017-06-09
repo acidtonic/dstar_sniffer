@@ -4,17 +4,38 @@ received_data = {}
 
 def free_text(stream_data):
 	txt = ""
-	count = 0
-	for c in stream_data:
-		if (count % 6 == 0) and (c == '@' or (c >= 'A' and c <= 'Z')):
-			for i in range(1, 5):
-				count = count + 1
-				txt = txt + c
-		count = count + 1
+	content = stream_data[3:]
+	for c in range(0, len(content)):
+		if (c % 6 == 0) and (content[c] == '@' or (content[c] >= 'A' and content[c] <= 'Z')):
+			for i in range(0, 5):
+				c = c + 1
+				txt = txt + content[c]
+	return txt
+
+def gps_info(stream_data):
+	txt = ""
+	content = stream_data[3:]
+	for c in range(0, len(content)):
+		if c % 6 == 0 and content[c] > 0x30 and content[c] <= 0x35:
+			for i in range(0, content[c] - 0x30):
+				c = c + 1
+				txt = txt + content[c]
+	return txt
+
+def header(stream_data):
+	txt = ""
+	content = stream_data[3:]
+	for c in range(0, len(content)):
+		if c % 6 == 0 and content[c] > 0x50 and content[c] <= 0x55:
+			for i in range(0, content[c] - 0x50):
+				c = c + 1
+				txt = txt + content[c]
 	return txt
 
 def parse_data(stream_data):
 	print free_text(stream_data)
+	print gps_info(stream_data)
+	print header(stream_data)
 
 def parse_packet(data):
 	if data.startswith("DSTR", 0, 4):
@@ -27,7 +48,6 @@ def parse_packet(data):
 		(packet[9] == 0x30 or packet[9] == 0x13 or packet[9] == 0x16):
 			# DV packet detected!
 			if data_len == 58:
-				print "DV INITIAL PACKET (routing info)"
 				rpt2 = data[20:28]
 				rpt1 = data[28:36]
 				ur = data[36:44]
