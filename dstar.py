@@ -19,7 +19,7 @@ def parse(data):
 				sfx = data[52:4]
 
 				print "START from rptr: cntr=%02x %02x, streamID=%d,%d, flags=%02x:%02x:%02x, my=%.8s, sfx=%.4s, ur=%.8s, rpt1=%.8s, rpt2=%.8s" % (packet[4], packet[5], packet[14], packet[15], packet[17], packet[18], packet[19], my, sfx, ur, rpt1, rpt2)
-			elif data_len == 29:
+			elif data_len == 29 or data_len == 32:
 				if packet[16] & 0x40:
 					print "END OF STREAM"
 				else:
