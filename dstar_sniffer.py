@@ -68,4 +68,4 @@ if __name__ == "__main__":
 				# get data from the packet
 				data = packet[h_size:]
 
-				dstar.parse(data)
+				dstar.parse_packet(data)
