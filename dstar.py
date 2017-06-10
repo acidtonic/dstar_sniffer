@@ -1,5 +1,7 @@
 received_data = {}
 
+stream = {}
+
 def valid_nmea_sentence(sentence):
 	if sentence[:3] == "$GP":
 		to_verify = sentence[1:-3]
@@ -23,31 +25,53 @@ def valid_dprs_sentence(sentence):
 	return hex((~icomcrc) & 0xffff)
 
 def free_text(stream_data):
-	txt = ""
+	msg = ""
 	content = stream_data[3:]
 	for c in range(0, len(content)):
 		if (c % 6 == 0) and (content[c] == '@' or (content[c] >= 'A' and content[c] <= 'C')):
 			for i in range(0, 5):
 				c = c + 1
-				txt = txt + content[c]
-	return txt
+				msg = msg + content[c]
+	return msg
 
 def gps_info(stream_data):
-	txt = ""
+	gps_sentence = ""
 	content = stream_data[3:]
 	for c in range(0, len(content)):
 		if c % 6 == 0 and (ord(content[c]) > 0x30 and ord(content[c]) <= 0x35):
 			for i in range(0, ord(content[c]) - 0x30):
 				c = c + 1
-				txt = txt + content[c]
-	gps_data = txt.split('\n')
-	for sentence in gps_data:
-		print sentence + " -> " + valid_nmea_sentence(sentence)
-	return gps_data
+				gps_sentence = gps_sentence + content[c]
 
-def parse_data(stream_data):
-	print free_text(stream_data)
-	print gps_info(stream_data)
+	response = {}
+	for sentence in gps_sentence.split('\n'):
+		if sentence.startswith('$$CRC'):
+			# DPR-S Sentence
+			if valid_dprs_sentence(sentence):
+				response["DPRS"] = sentence
+			else:
+				print "Not valid sentence: " + sentence
+		if sentence.startswith('$GPGGA'):
+			# NMEA Sentence
+			if valid_nmea_sentence(sentence):
+				response[sentence.split(",")[0]] = sentence
+			else:
+				print "Not valid sentence: " + sentence
+			
+	return response
+
+def parse_data(stream_id):
+	message = free_text(stream[stream_id]["slow_speed_data"])
+	stream[stream_id]["message"] = message
+	gps = gps_info(stream[stream_id]["slow_speed_data"])
+	stream[stream_id]["gps"] = gps
+	print stream[stream_id]
+
+def scrambler(b1, b2, b3):
+	return chr(b1 ^ 0x70) + chr(b2 ^ 0x4F) + chr(b3 ^ 0x93)
+
+def slow_speed_data(stream_id, new_data):
+	stream[stream_id]["slow_speed_data"] = stream[stream_id]["slow_speed_data"] + new_data
 
 def parse_packet(data):
 	if data.startswith("DSTR", 0, 4):
@@ -58,28 +82,28 @@ def parse_packet(data):
 		if (data_len == 58 or data_len == 29 or data_len == 32) and packet[6] == 0x73 \
 		and packet[7] == 0x12 and packet[10] == 0x20 and packet[8] == 0x00 and \
 		(packet[9] == 0x30 or packet[9] == 0x13 or packet[9] == 0x16):
+			stream_id = packet[14] + packet[15]
+
 			# DV packet detected!
 			if data_len == 58:
+				# start of stream
 				rpt2 = data[20:28]
 				rpt1 = data[28:36]
 				ur = data[36:44]
 				my = data[44:52]
 				sfx = data[52:56]
 
-				print "START from rptr: cntr=%02x %02x, streamID=%d,%d, flags=%02x:%02x:%02x, my=%.8s, sfx=%.4s, ur=%.8s, rpt1=%.8s, rpt2=%.8s" % (packet[4], packet[5], packet[14], packet[15], packet[17], packet[18], packet[19], my, sfx, ur, rpt1, rpt2)
-				received_data[packet[14] + packet[15]] = "" 
+				stream[stream_id] = {}
+				stream[stream_id]["my"] = my
+				stream[stream_id]["sfx"] = sfx
+				stream[stream_id]["ur"] = ur 
+				stream[stream_id]["rpt1"] = rpt1
+				stream[stream_id]["rpt2"] = rpt2
+				stream[stream_id]["slow_speed_data"] = ""
 			elif data_len == 29 or data_len == 32:
 				if packet[16] & 0x40:
-					print "END OF STREAM %d,%d" % (packet[14], packet[15])
-					parse_data(received_data[packet[14] + packet[15]])
-
+					# end of stream!
+					parse_data(stream_id)
 				else:
-					if data_len == 32:
-						received_data[packet[14] + packet[15]] = received_data[packet[14] + packet[15]] \
-						+ chr(packet[29] ^ 0x70) + chr(packet[30] ^ 0x4F) + chr(packet[31] ^ 0x93)
-					else:
-						received_data[packet[14] + packet[15]] = received_data[packet[14] + packet[15]] \
-						+ chr(packet[26] ^ 0x70) + chr(packet[27] ^ 0x4F) + chr(packet[28] ^ 0x93)
-
-if __name__ == "__main__":
-	print valid_dprs_sentence("AE5PL-T>API282,DSTAR*:!3302.39N/09644.66W>/\r")
+					# just another part of the stream
+					slow_speed_data(stream_id, scrambler(packet[data_len-3], packet[data_len-2], packet[data_len-1]))
