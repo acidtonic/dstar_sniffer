@@ -3,8 +3,8 @@
 import socket, sys
 from struct import *
 import ConfigParser
-import dstar
-import aprsis
+from dstar import DStar
+from aprsis import AprsIS
 
 if __name__ == "__main__":
 
@@ -15,7 +15,9 @@ if __name__ == "__main__":
 	controller_port = config.getint("controller", "port")
 	controller_iface = config.get("controller", "iface")
 
-	aprs_connection = aprsis.aprs_connect(config.get("aprs-is", "callsign"), config.get("aprs-is", "password"))
+	aprsIS = AprsIS(config.get("aprs-is", "callsign"), config.get("aprs-is", "password"))
+
+	dstar = DStar()
 
 	try:
 		s = socket.socket(socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003))
@@ -23,6 +25,8 @@ if __name__ == "__main__":
 	except socket.error , msg:
 		print 'Socket could not be created. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
 		sys.exit()
+
+
 
 	# receive packets
 	while True:
@@ -71,6 +75,8 @@ if __name__ == "__main__":
 				# get data from the packet
 				data = packet[h_size:]
 
-				dstar_stream = dstar.parse_packet(data)
-				print dstar_stream
+				dstar_stream = dstar.parse(data)
+				if dstar_stream != None:
+					# End of stream!
+					print dstar_stream
 
