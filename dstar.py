@@ -1,6 +1,14 @@
-
 received_data = {}
 
+def valid_nmea_sentence(sentence):
+	if sentence[:3] == "$GP":
+		to_verify = sentence[1:-3]
+		crc = 0
+		for i in range(0, len(to_verify)):
+			crc = crc ^ ord(to_verify[i])
+		if crc == int(sentence[-2:], 16):
+			return 1
+	return 0 
 
 def free_text(stream_data):
 	txt = ""
@@ -20,7 +28,10 @@ def gps_info(stream_data):
 			for i in range(0, ord(content[c]) - 0x30):
 				c = c + 1
 				txt = txt + content[c]
-	return txt
+	gps_data = txt.split('\n')
+	for sentence in gps_data:
+		print sentence + " -> " + valid_nmea_sentence(sentence)
+	return gps_data
 
 def parse_data(stream_data):
 	print free_text(stream_data)
