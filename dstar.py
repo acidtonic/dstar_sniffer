@@ -3,14 +3,17 @@ received_data = {}
 stream = {}
 
 def valid_nmea_sentence(sentence):
-	if sentence[:3] == "$GP":
-		to_verify = sentence[1:-3]
-		crc = 0
-		for i in range(0, len(to_verify)):
-			crc = crc ^ ord(to_verify[i])
-		if crc == int(sentence[-2:], 16):
-			return 1
-	return 0 
+	try:
+		if sentence[:3] == "$GP":
+			to_verify = sentence[1:-3]
+			crc = 0
+			for i in range(0, len(to_verify)):
+				crc = crc ^ ord(to_verify[i])
+			if crc == int(sentence[-2:], 16):
+				return 1
+		return 0
+	except ValueError:
+		return 0
 
 def valid_dprs_sentence(sentence):
 	icomcrc = 0xffff
@@ -37,27 +40,38 @@ def free_text(stream_data):
 def gps_info(stream_data):
 	gps_sentence = ""
 	content = stream_data[3:]
-	for c in range(0, len(content)):
-		if c % 6 == 0 and (ord(content[c]) > 0x30 and ord(content[c]) <= 0x35):
-			for i in range(0, ord(content[c]) - 0x30):
+	position = 0
+	c = 0
+	while c < len(content):
+		if position % 6 == 0 and content[c] == '%':
+			# 3 bytes sync sequence
+			c = c + 3 
+			continue
+		elif position % 6 == 0 and ord(content[c]) > 0x30 and ord(content[c]) <= 0x35:
+			stream_length = ord(content[c]) - 0x30
+			for i in range(0, stream_length):
+				position = position + 1
 				c = c + 1
 				gps_sentence = gps_sentence + content[c]
-
+		position = position + 1
+		c = c + 1
 	response = {}
 	for sentence in gps_sentence.split('\n'):
+		sentence = sentence.strip()
 		if sentence.startswith('$$CRC'):
 			# DPR-S Sentence
 			if valid_dprs_sentence(sentence):
 				response["DPRS"] = sentence
 			else:
-				print "Not valid sentence: " + sentence
-		if sentence.startswith('$GPGGA'):
+				print "Not valid DPRS sentence: " + sentence
+		if sentence.startswith('$GP'):
+			if sentence.endswith('\r'):
+				print "sentence: %s termina con r" % sentence
 			# NMEA Sentence
 			if valid_nmea_sentence(sentence):
 				response[sentence.split(",")[0]] = sentence
 			else:
-				print "Not valid sentence: " + sentence
-			
+				print "Not valid NMEA sentence: " + sentence
 	return response
 
 def parse_data(stream_id):
@@ -107,3 +121,4 @@ def parse_packet(data):
 				else:
 					# just another part of the stream
 					slow_speed_data(stream_id, scrambler(packet[data_len-3], packet[data_len-2], packet[data_len-1]))
+
