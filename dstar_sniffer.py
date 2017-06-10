@@ -4,6 +4,7 @@ import socket, sys
 from struct import *
 import ConfigParser
 import dstar
+import aprsis
 
 if __name__ == "__main__":
 
@@ -13,6 +14,8 @@ if __name__ == "__main__":
 	controller_ip = config.get("controller", "ip")
 	controller_port = config.getint("controller", "port")
 	controller_iface = config.get("controller", "iface")
+
+	aprs_connection = aprsis.aprs_connect(config.get("aprs-is", "callsign"), config.get("aprs-is", "password"))
 
 	try:
 		s = socket.socket(socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003))
@@ -68,4 +71,6 @@ if __name__ == "__main__":
 				# get data from the packet
 				data = packet[h_size:]
 
-				dstar.parse_packet(data)
+				dstar_stream = dstar.parse_packet(data)
+				print dstar_stream
+

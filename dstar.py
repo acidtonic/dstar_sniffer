@@ -82,7 +82,9 @@ def parse_data(stream_id):
 	stream[stream_id]["message"] = message
 	gps = gps_info(stream[stream_id]["slow_speed_data"])
 	stream[stream_id]["gps"] = gps
-	print stream[stream_id]
+	parsed_stream = stream[stream_id]
+	del stream[stream_id]
+	return parsed_stream 
 
 def scrambler(b1, b2, b3):
 	return chr(b1 ^ 0x70) + chr(b2 ^ 0x4F) + chr(b3 ^ 0x93)
@@ -120,7 +122,7 @@ def parse_packet(data):
 			elif data_len == 29 or data_len == 32:
 				if packet[16] & 0x40:
 					# end of stream!
-					parse_data(stream_id)
+					return parse_data(stream_id)
 				else:
 					# just another part of the stream
 					slow_speed_data(stream_id, scrambler(packet[data_len-3], packet[data_len-2], packet[data_len-1]))
