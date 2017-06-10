@@ -31,10 +31,13 @@ def free_text(stream_data):
 	msg = ""
 	content = stream_data[3:]
 	for c in range(0, len(content)):
-		if (c % 6 == 0) and (content[c] == '@' or (content[c] >= 'A' and content[c] <= 'C')):
+		if c % 6 == 0 and (content[c] == '@' or (content[c] >= 'A' and content[c] <= 'C')):
 			for i in range(0, 5):
 				c = c + 1
 				msg = msg + content[c]
+		elif c % 6 == 0 and content[c] == '%':
+			# 3 bytes syn sequence
+			c = c + 2
 	return msg
 
 def gps_info(stream_data):
