@@ -63,7 +63,7 @@ class DStar:
 			sentence = sentence.strip()
 			if sentence.startswith('$$CRC'):
 				# DPR-S Sentence
-				if valid_dprs_sentence(sentence):
+				if self.valid_dprs_sentence(sentence):
 					response["DPRS"] = sentence
 				else:
 					print "Not valid DPRS sentence: " + sentence
@@ -71,16 +71,16 @@ class DStar:
 				if sentence.endswith('\r'):
 					print "sentence: %s termina con r" % sentence
 				# NMEA Sentence
-				if valid_nmea_sentence(sentence):
+				if self.valid_nmea_sentence(sentence):
 					response[sentence.split(",")[0]] = sentence
 				else:
 					print "Not valid NMEA sentence: " + sentence
 		return response
 
 	def parse_data(self, stream_id):
-		message = free_text(self.stream[stream_id]["slow_speed_data"])
+		message = self.free_text(self.stream[stream_id]["slow_speed_data"])
 		self.stream[stream_id]["message"] = message
-		gps = gps_info(self.stream[stream_id]["slow_speed_data"])
+		gps = self.gps_info(self.stream[stream_id]["slow_speed_data"])
 		self.stream[stream_id]["gps"] = gps
 		parsed_stream = self.stream[stream_id]
 		del self.stream[stream_id]
@@ -123,9 +123,9 @@ class DStar:
 				elif data_len == 29 or data_len == 32:
 					if packet[16] & 0x40:
 						# end of stream!
-						return parse_data(stream_id)
+						return self.parse_data(stream_id)
 					else:
 						# just another part of the stream
-						slow_speed_data(stream_id, scrambler(packet[data_len-3], packet[data_len-2], packet[data_len-1]))
+						self.slow_speed_data(stream_id, self.scrambler(packet[data_len-3], packet[data_len-2], packet[data_len-1]))
 						return None
 
