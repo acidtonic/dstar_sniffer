@@ -1,10 +1,8 @@
 class DStar:
 
-	recdeived_data = {}
-
 	stream = {}
 
-	def valid_nmea_sentence(sentence):
+	def valid_nmea_sentence(self, sentence):
 		try:
 			if sentence[:3] == "$GP":
 				to_verify = sentence[1:-3]
@@ -17,7 +15,7 @@ class DStar:
 		except ValueError:
 			return 0
 
-	def valid_dprs_sentence(sentence):
+	def valid_dprs_sentence(self, sentence):
 		icomcrc = 0xffff
 		for l in range(0, len(sentence)):
 			ch = ord(sentence[l]) & 0xff
@@ -29,7 +27,7 @@ class DStar:
 				ch = ch >> 1
 		return hex((~icomcrc) & 0xffff)
 
-	def free_text(stream_data):
+	def free_text(self, stream_data):
 		msg = ""
 		content = stream_data[3:]
 		for c in range(0, len(content)):
@@ -42,7 +40,7 @@ class DStar:
 				c = c + 2
 		return msg
 
-	def gps_info(stream_data):
+	def gps_info(self, stream_data):
 		gps_sentence = ""
 		content = stream_data[3:]
 		position = 0
@@ -79,22 +77,22 @@ class DStar:
 					print "Not valid NMEA sentence: " + sentence
 		return response
 
-	def parse_data(stream_id):
-		message = free_text(stream[stream_id]["slow_speed_data"])
-		stream[stream_id]["message"] = message
-		gps = gps_info(stream[stream_id]["slow_speed_data"])
-		stream[stream_id]["gps"] = gps
-		parsed_stream = stream[stream_id]
-		del stream[stream_id]
+	def parse_data(self, stream_id):
+		message = free_text(self.stream[stream_id]["slow_speed_data"])
+		self.stream[stream_id]["message"] = message
+		gps = gps_info(self.stream[stream_id]["slow_speed_data"])
+		self.stream[stream_id]["gps"] = gps
+		parsed_stream = self.stream[stream_id]
+		del self.stream[stream_id]
 		return parsed_stream 
 
-	def scrambler(b1, b2, b3):
+	def scrambler(self, b1, b2, b3):
 		return chr(b1 ^ 0x70) + chr(b2 ^ 0x4F) + chr(b3 ^ 0x93)
 
-	def slow_speed_data(stream_id, new_data):
-		stream[stream_id]["slow_speed_data"] = stream[stream_id]["slow_speed_data"] + new_data
+	def slow_speed_data(self, stream_id, new_data):
+		self.stream[stream_id]["slow_speed_data"] = self.stream[stream_id]["slow_speed_data"] + new_data
 
-	def parse(data):
+	def parse(self, data):
 		if data.startswith("DSTR", 0, 4):
 			data_len = len(data)
 	
@@ -114,13 +112,13 @@ class DStar:
 					my = data[44:52]
 					sfx = data[52:56]
 
-					stream[stream_id] = {}
-					stream[stream_id]["my"] = my
-					stream[stream_id]["sfx"] = sfx
-					stream[stream_id]["ur"] = ur 
-					stream[stream_id]["rpt1"] = rpt1
-					stream[stream_id]["rpt2"] = rpt2
-					stream[stream_id]["slow_speed_data"] = ""
+					self.stream[stream_id] = {}
+					self.stream[stream_id]["my"] = my
+					self.stream[stream_id]["sfx"] = sfx
+					self.stream[stream_id]["ur"] = ur 
+					self.stream[stream_id]["rpt1"] = rpt1
+					self.stream[stream_id]["rpt2"] = rpt2
+					self.stream[stream_id]["slow_speed_data"] = ""
 					return None
 				elif data_len == 29 or data_len == 32:
 					if packet[16] & 0x40:

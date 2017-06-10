@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import socket, sys
+import socket
+import sys
 from struct import *
 import ConfigParser
 from dstar import DStar
@@ -15,8 +16,10 @@ if __name__ == "__main__":
 	controller_port = config.getint("controller", "port")
 	controller_iface = config.get("controller", "iface")
 
+	# Connect to APRS-IS network.
 	aprsIS = AprsIS(config.get("aprs-is", "callsign"), config.get("aprs-is", "password"))
 
+	# Initialize the dstar packet manipulation class
 	dstar = DStar()
 
 	try:
