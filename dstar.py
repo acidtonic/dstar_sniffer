@@ -16,18 +16,8 @@ def gps_info(stream_data):
 	txt = ""
 	content = stream_data[3:]
 	for c in range(0, len(content)):
-		if c % 6 == 0 and content[c] > 0x30 and content[c] <= 0x35:
-			for i in range(0, content[c] - 0x30):
-				c = c + 1
-				txt = txt + content[c]
-	return txt
-
-def header(stream_data):
-	txt = ""
-	content = stream_data[3:]
-	for c in range(0, len(content)):
-		if c % 6 == 0 and content[c] > 0x50 and content[c] <= 0x55:
-			for i in range(0, content[c] - 0x50):
+		if c % 6 == 0 and (ord(content[c]) > 0x30 and ord(content[c]) <= 0x35):
+			for i in range(0, ord(content[c]) - 0x30):
 				c = c + 1
 				txt = txt + content[c]
 	return txt
@@ -35,7 +25,6 @@ def header(stream_data):
 def parse_data(stream_data):
 	print free_text(stream_data)
 	print gps_info(stream_data)
-	print header(stream_data)
 
 def parse_packet(data):
 	if data.startswith("DSTR", 0, 4):
@@ -69,11 +58,3 @@ def parse_packet(data):
 						received_data[packet[14] + packet[15]] = received_data[packet[14] + packet[15]] \
 						+ chr(packet[26] ^ 0x70) + chr(packet[27] ^ 0x4F) + chr(packet[28] ^ 0x93)
 
-
-if __name__ == "__main__":
-	with open('read_udp.data') as f:
-		for line in f:
-			if "hex" in line:
-				line_hex = line.split(":")
-				data = str(bytearray([int(x, 16) for x in line_hex[1:]]))
-				parse_packet(data)
