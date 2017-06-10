@@ -10,6 +10,18 @@ def valid_nmea_sentence(sentence):
 			return 1
 	return 0 
 
+def valid_dprs_sentence(sentence):
+	icomcrc = 0xffff
+	for l in range(0, len(sentence)):
+		ch = ord(sentence[l]) & 0xff
+		for i in range(0, 8):
+			xorflag = ((icomcrc ^ ch) & 0x01) == 0x01
+			icomcrc = icomcrc >> 1
+			if xorflag:
+				icomcrc = icomcrc ^ 0x8408
+			ch = ch >> 1
+	return hex((~icomcrc) & 0xffff)
+
 def free_text(stream_data):
 	txt = ""
 	content = stream_data[3:]
@@ -69,3 +81,5 @@ def parse_packet(data):
 						received_data[packet[14] + packet[15]] = received_data[packet[14] + packet[15]] \
 						+ chr(packet[26] ^ 0x70) + chr(packet[27] ^ 0x4F) + chr(packet[28] ^ 0x93)
 
+if __name__ == "__main__":
+	print valid_dprs_sentence("AE5PL-T>API282,DSTAR*:!3302.39N/09644.66W>/\r")
