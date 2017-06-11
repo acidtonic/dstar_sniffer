@@ -25,7 +25,7 @@ if __name__ == "__main__":
 	controller_iface = config.get("controller", "iface")
 
 	# Connect to APRS-IS network.
-	aprsIS = AprsIS(config.get("aprs-is", "callsign"), config.get("aprs-is", "password"))
+	aprsIS = AprsIS(logger, config.get("aprs-is", "callsign"), config.get("aprs-is", "password"))
 
 	# Initialize the dstar packet manipulation class
 	dstar = DStar(logger)
