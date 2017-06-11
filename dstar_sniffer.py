@@ -82,4 +82,8 @@ if __name__ == "__main__":
 				if dstar_stream != None:
 					# End of stream!
 					print dstar_stream
+					if 'D74' in dstar_stream['sfx'] and dstar_stream['gps']['$GPGGA'] != None:
+						# only send beacon from Kenwood D74
+						aprsIS.send_beacon(dstar_stream['my'], dstar_stream['sfx'], dstar_stream['message'],\
+						dstar_stream['gps']['$GPGGA'])
 
