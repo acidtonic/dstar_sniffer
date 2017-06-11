@@ -6,8 +6,16 @@ from struct import *
 import ConfigParser
 from dstar import DStar
 from aprsis import AprsIS
+import logging
 
 if __name__ == "__main__":
+
+	logger = logging.getLogger('dstar_sniffer')
+	hdlr = logging.FileHandler('/var/log/dstar_sniffer.log')
+	formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+	hdlr.setFormatter(formatter)
+	logger.addHandler(hdlr) 
+	logger.setLevel(logging.INFO)
 
 	# Read configuration file.
 	config = ConfigParser.ConfigParser()
@@ -21,15 +29,14 @@ if __name__ == "__main__":
 
 	# Initialize the dstar packet manipulation class
 	dstar = DStar()
+	dstar.setLogger(logger)
 
 	try:
 		s = socket.socket(socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003))
 		s.setsockopt(socket.SOL_SOCKET, 25, controller_iface) # Bind to device
 	except socket.error , msg:
-		print 'Socket could not be created. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+		logger.info('Socket could not be created. Error Code : ' + str(msg[0]) + ' Message ' + msg[1])
 		sys.exit()
-
-
 
 	# receive packets
 	while True:
@@ -81,7 +88,7 @@ if __name__ == "__main__":
 				dstar_stream = dstar.parse(data)
 				if dstar_stream != None:
 					# End of stream!
-					print dstar_stream
+					logger.info(dstar_stream)
 					if 'D74' in dstar_stream['sfx'] and '$GPGGA' in dstar_stream['gps']:
 						# only send beacon from Kenwood D74
 						aprsIS.send_beacon(dstar_stream['my'], dstar_stream['sfx'], dstar_stream['message'],\
