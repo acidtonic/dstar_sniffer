@@ -10,5 +10,5 @@ class AprsIS:
 	def send_beacon(self, callsign, sfx, message, gpgga):
 		position = nmea.gpgga_get_position(gpgga)
 		print "Send beacon"
-		aprs_frame = callsign+'>APK'+sfx+':!'+gpgga['lat'] + gpgga['lat_coord'] + '/'+gpgga['long']+gpgga['long_coord']+'Da/A=' + gpgga['height'] + '>' + message
+		aprs_frame = callsign+'>APK'+sfx+':!'+position['lat'] + position['lat_coord'] + '/'+position['long']+position['long_coord']+'Da/A=' + position['height'] + '>' + message
 		self.aprs_connection.send(aprs.Frame(aprs_frame))
