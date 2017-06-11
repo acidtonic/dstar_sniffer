@@ -70,13 +70,13 @@ class DStar:
 				if self.valid_dprs_sentence(sentence):
 					response["DPRS"] = sentence
 				else:
-					logger.info("Not valid DPRS sentence: " + sentence)
+					self.logger.info("Not valid DPRS sentence: " + sentence)
 			if sentence.startswith('$GP'):
 				# NMEA Sentence
 				if self.valid_nmea_sentence(sentence):
 					response[sentence.split(",")[0]] = sentence
 				else:
-					logger.info("Not valid NMEA sentence: " + sentence)
+					self.logger.info("Not valid NMEA sentence: " + sentence)
 		return response
 
 	def parse_data(self, stream_id):
@@ -121,12 +121,12 @@ class DStar:
 					self.stream[stream_id]["rpt1"] = rpt1
 					self.stream[stream_id]["rpt2"] = rpt2
 					self.stream[stream_id]["slow_speed_data"] = ""
-					logger.info("Start of stream (%s) received from: %s" % (stream_id, my))
+					self.logger.info("Start of stream (%s) received from: %s" % (stream_id, my))
 					return None
 				elif data_len == 29 or data_len == 32:
 					if packet[16] & 0x40:
 						# end of stream!
-						logger.info("End of stream (%s)" % stream_id)
+						self.logger.info("End of stream (%s)" % stream_id)
 						return self.parse_data(stream_id)
 					else:
 						# just another part of the stream
