@@ -3,7 +3,7 @@ class DStar:
 	stream = {}
 	logger = None
 
-	def DStar(self, logger):
+	def __init__(self, logger):
 		self.logger = logger
 
 	def valid_nmea_sentence(self, sentence):
