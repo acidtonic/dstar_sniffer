@@ -28,8 +28,7 @@ if __name__ == "__main__":
 	aprsIS = AprsIS(config.get("aprs-is", "callsign"), config.get("aprs-is", "password"))
 
 	# Initialize the dstar packet manipulation class
-	dstar = DStar()
-	dstar.setLogger(logger)
+	dstar = DStar(logger)
 
 	try:
 		s = socket.socket(socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003))
