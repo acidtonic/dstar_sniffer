@@ -1,2 +1,4 @@
 *.py[cod]
-
+dist/
+build/
+DStar_Sniffer.egg-info/

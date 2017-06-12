@@ -1,4 +1,5 @@
 import aprs
+
 import nmea
 
 class AprsIS:

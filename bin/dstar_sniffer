@@ -4,9 +4,10 @@ import socket
 import sys
 from struct import *
 import ConfigParser
-from dstar import DStar
-from aprsis import AprsIS
 import logging
+
+from dstar_lib import DStar
+from dstar_lib import AprsIS
 
 if __name__ == "__main__":
 
@@ -19,7 +20,7 @@ if __name__ == "__main__":
 
 	# Read configuration file.
 	config = ConfigParser.ConfigParser()
-	config.read("dstar_sniffer.conf")
+	config.read("/etc/dstar_sniffer/dstar_sniffer.conf")
 	controller_ip = config.get("controller", "ip")
 	controller_port = config.getint("controller", "port")
 	controller_iface = config.get("controller", "iface")
