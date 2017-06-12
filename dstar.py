@@ -3,6 +3,8 @@ class DStar:
 	stream = {}
 	logger = None
 
+	free_text_sequence = ['', '@', 'A', 'B', 'C']
+
 	def __init__(self, logger):
 		self.logger = logger
 
@@ -14,10 +16,10 @@ class DStar:
 				for i in range(0, len(to_verify)):
 					crc = crc ^ ord(to_verify[i])
 				if crc == int(sentence[-2:], 16):
-					return 1
-			return 0
+					return True
+			return False
 		except ValueError:
-			return 0
+			return False
 
 	def valid_dprs_sentence(self, sentence):
 		icomcrc = 0xffff
@@ -31,17 +33,44 @@ class DStar:
 				ch = ch >> 1
 		return hex((~icomcrc) & 0xffff)
 
+	def valid_free_text_sequence(self, last_letter, current_letter):
+		idx1 = self.free_text_sequence.index(last_letter)
+		idx2 = self.free_text_sequence.index(current_letter)
+		if (idx1 + 1 == idx2):
+			return True
+		return False
+
+	def complete_missing_free_text_sequence(self, last_letter, current_letter):
+		diff = self.free_text_sequence.index(current_letter) - self.free_text_sequence.index(last_letter)
+		complete_string = ""
+		for i in range(0, diff):
+			complete_string = complete_string + "?????"
+		return complete_string
+
 	def free_text(self, stream_data):
 		msg = ""
-		content = stream_data[3:]
-		for c in range(0, len(content)):
-			if c % 6 == 0 and (content[c] == '@' or (content[c] >= 'A' and content[c] <= 'C')):
+		last_letter = ''
+		position = 0
+		content = stream_data
+		c = 0
+		while c < len(content):
+			if position % 6 == 0 and (content[c] == '@' or (content[c] >= 'A' and content[c] <= 'C')):
+				if not self.valid_free_text_sequence(last_letter, content[c]):
+					msg = msg + self.complete_missing_free_text_sequence(last_letter, content[c])
+				last_letter = content[c]
 				for i in range(0, 5):
 					c = c + 1
+					position = position + 1
 					msg = msg + content[c]
-			elif c % 6 == 0 and content[c] == '%':
+				if self.free_text_sequence.index(last_letter) == len(self.free_text_sequence) - 1:
+					# End of supported string sequence.
+					break
+			elif position % 6 == 0 and content[c] == '%':
 				# 3 bytes syn sequence
-				c = c + 2
+				c = c + 3
+				continue
+			position = position + 1
+			c = c + 1
 		return msg
 
 	def gps_info(self, stream_data):
@@ -132,4 +161,3 @@ class DStar:
 						# just another part of the stream
 						self.slow_speed_data(stream_id, self.scrambler(packet[data_len-3], packet[data_len-2], packet[data_len-1]))
 						return None
-
