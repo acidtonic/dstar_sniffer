@@ -21,7 +21,7 @@ dstar_sniffer
 ```
 #### or use this instead to leave it in background
 ```shell
-nohup dstar_sniffer.py
+nohup dstar_sniffe &
 ```
 A daemon mode will be supported in the near future.
 
