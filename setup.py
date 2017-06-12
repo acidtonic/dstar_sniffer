@@ -10,7 +10,7 @@ setup(name='DStar Sniffer',
       license='MIT',
       packages=find_packages(),
       install_requires=[
-          'aprs',
+          'aprslib',
       ],
       scripts=['bin/dstar_sniffer'],
       data_files=[('/etc/dstar_sniffer', glob("config/*.conf"))],
