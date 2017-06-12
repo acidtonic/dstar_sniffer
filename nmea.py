@@ -5,8 +5,8 @@ def gpgga_get_position(gpgga_sentence):
 	position = {}
 	position['lat'] = sentence[2]
 	position['lat_coord'] = sentence[3]
-	position['lon'] = sentence[4]
-	position['lon_coord'] = sentence[5]
+	position['long'] = sentence[4]
+	position['long_coord'] = sentence[5]
 	position['height'] = str(int(float(sentence[11]) * 3.28084)).zfill(6)
 	return position
 
