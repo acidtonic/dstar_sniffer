@@ -1,4 +1,5 @@
 import aprs
+import logging
 
 import nmea
 
@@ -6,8 +7,8 @@ class AprsIS:
 
 	logger = None
 
-	def __init__(self, logger, callsign, password):
-		self.logger = logger
+	def __init__(self, callsign, password):
+		self.logger = logging.getLogger(__name__)
 		self.aprs_connection = aprs.TCP(callsign, password)
 		self.aprs_connection.start()
 

@@ -1,3 +1,5 @@
+import logging
+
 class DStar:
 
 	stream = {}
@@ -5,8 +7,8 @@ class DStar:
 
 	free_text_sequence = ['', '@', 'A', 'B', 'C']
 
-	def __init__(self, logger):
-		self.logger = logger
+	def __init__(self):
+		self.logger = logging.getLogger(__name__)
 
 	def valid_nmea_sentence(self, sentence):
 		try:

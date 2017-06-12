@@ -5,18 +5,17 @@ import sys
 from struct import *
 import ConfigParser
 import logging
+import logging.config
 
 from dstar_lib import DStar
 from dstar_lib import AprsIS
 
 if __name__ == "__main__":
 
-	logger = logging.getLogger('dstar_sniffer')
-	hdlr = logging.FileHandler('/var/log/dstar_sniffer.log')
-	formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-	hdlr.setFormatter(formatter)
-	logger.addHandler(hdlr) 
-	logger.setLevel(logging.INFO)
+	# Setup logging
+	logging.config.fileConfig('/etc/dstar_sniffer/logging.conf')
+
+	logger = logging.getLogger(__name__)
 
 	# Read configuration file.
 	config = ConfigParser.ConfigParser()
@@ -26,12 +25,13 @@ if __name__ == "__main__":
 	controller_iface = config.get("controller", "iface")
 
 	# Connect to APRS-IS network.
-	aprsIS = AprsIS(logger, config.get("aprs-is", "callsign"), config.get("aprs-is", "password"))
+	aprsIS = AprsIS(config.get("aprs-is", "callsign"), config.get("aprs-is", "password"))
 
 	# Initialize the dstar packet manipulation class
-	dstar = DStar(logger)
+	dstar = DStar()
 
 	try:
+		# Start listening to every UDP packet.
 		s = socket.socket(socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003))
 		s.setsockopt(socket.SOL_SOCKET, 25, controller_iface) # Bind to device
 	except socket.error , msg:
@@ -94,3 +94,4 @@ if __name__ == "__main__":
 						aprsIS.send_beacon(dstar_stream['my'], dstar_stream['sfx'], dstar_stream['message'],\
 						dstar_stream['gps']['$GPGGA'])
 
+	logger.info("DStar sniffer ends running.")
