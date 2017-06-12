@@ -9,9 +9,9 @@ the slow speed data and routing information found in every DV transmission.
 At the momento only kenwood /D74 received positions are sent to APRS-IS.
 
 ## Install
-### We need pyaprs
+### We need aprslib in order to connect to the APRS-IS network.
 ```shell
-pip install aprs
+pip install aprslib
 ```
 ### Add file permissions
 ```shell
