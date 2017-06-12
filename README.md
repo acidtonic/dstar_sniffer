@@ -8,9 +8,23 @@ the slow speed data and routing information found in every DV transmission.
 
 At the momento only kenwood /D74 received positions are sent to APRS-IS.
 
-## Useful links
-- [Slow speed data] (http://www.qsl.net/kb9mwr/projects/dv/dstar/Slow%20Data.pdf)
-- [UDP frames] (http://www.qsl.net/kb9mwr/projects/dv/dstar/formats%20of%20files%20and%20UDP-streams%20used%20on%20D-STAR.pdf)
+## Install
+### We need pyaprs
+```shell
+pip install aprs
+```
+### Add file permissions
+```shell
+chmod a+x dstar_sniffer.py
+```
 
+### Run dstar_sniffer
+```shell
+./dstar_sniffer.py
+```
+#### or use this instead to leave it in background
+```shell
+nohup ./dstar_sniffer.py &
+```
 
 eliel (at) eliel.com.ar
