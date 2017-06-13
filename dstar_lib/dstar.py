@@ -146,6 +146,7 @@ class DStar:
 					sfx = data[52:56]
 
 					self.stream[stream_id] = {}
+					self.stream[stream_id]["id"] = stream_id
 					self.stream[stream_id]["my"] = my
 					self.stream[stream_id]["sfx"] = sfx
 					self.stream[stream_id]["ur"] = ur 
