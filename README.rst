@@ -31,12 +31,14 @@ Dstar Sniffer will log all its output to /var/log/dstar_sniffer.log
 If you want to modify this you need to edit the /etc/dstar_sniffer/logging.conf file.
 
 - Configuration file (/etc/dstar_sniffer/dstar_sniffer.conf)
+
 ```
 [controller]
 port= <where the icom rpt controller sends all the DV traffic>
 iface= <name of the interface where the icom rpt controller is connected to the gateway>
 ip= <ip of the icom rpt controller>
 ```
+
 - Useful links
 [Slow speed data format] (http://www.qsl.net/k/kb9mwr/projects/dv/dstar/Slow%20Data.pdf)
 
