@@ -26,4 +26,16 @@ dstar_sniffer start
 ### Logging
 Dstar Sniffer will log all its output to /var/log/dstar_sniffer.log
 
+### Configuration file (config/dstar_sniffer.conf)
+```
+[controller]
+port= <where the icom rpt controller sends all the DV traffic>
+iface= <name of the interface where the icom rpt controller is connected to the gateway>
+ip= <ip of the icom rpt controller>
+
+[aprs-is]
+callsign=<repeater callsign with module name>
+password=<password based on repeater callsign>
+```
+
 eliel (at) eliel.com.ar
