@@ -9,6 +9,7 @@ setup(name='DStar Sniffer',
       author_email='eliel@eliel.com.ar',
       license='MIT',
       packages=find_packages(),
+      keywords='hamradio dstar aprs icom kenwood d74',
       install_requires=[
           'aprslib',
       ],
