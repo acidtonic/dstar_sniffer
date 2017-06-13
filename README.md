@@ -9,22 +9,23 @@ the slow speed data and routing information found in every DV transmission.
 At the momento only kenwood /D74 received positions are sent to APRS-IS.
 
 ## Install
-### We need aprslib in order to connect to the APRS-IS network.
+### Install dstar_sniffer
 ```shell
-pip install aprslib
+python setup.py install
 ```
-### Add file permissions
-```shell
-chmod a+x dstar_sniffer.py
-```
+All the configuration files will be installed in /etc/dstar_sniffer/
 
 ### Run dstar_sniffer
 ```shell
-./dstar_sniffer.py
+dstar_sniffer
 ```
 #### or use this instead to leave it in background
 ```shell
-nohup ./dstar_sniffer.py &
+nohup dstar_sniffe &
 ```
+A daemon mode will be supported in the near future.
+
+### Logging
+Dstar Sniffer will log all its output to /var/log/dstar_sniffer.log
 
 eliel (at) eliel.com.ar
