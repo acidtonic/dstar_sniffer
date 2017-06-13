@@ -18,6 +18,7 @@ All the configuration files will be installed in /etc/dstar_sniffer/
 
 Configuration
 -------------
+All the application configuration is in one file (/etc/dstar_sniffer/dstar_sniffer.conf)::
 
     [controller]
     port= <where the icom rpt controller sends all the DV traffic>
@@ -27,7 +28,7 @@ Configuration
 
 Run dstar_sniffer
 -----------------
-usage: dstar_sniffer [start|stop|restart]
+Dstar sniffer will run like a daemon in the background, to start the application (``usage: dstar_sniffer [start|stop|restart]``) you should execute::
 
     dstar_sniffer start
 
