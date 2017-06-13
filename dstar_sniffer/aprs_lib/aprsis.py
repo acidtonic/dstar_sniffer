@@ -3,7 +3,7 @@ import logging
 
 import nmea
 from passcode import passcode_generator
-from util import config
+from ..util_lib import config
 
 def to_aprs_callsign(dstar_callsign):
 	module = dstar_callsign[-1:]

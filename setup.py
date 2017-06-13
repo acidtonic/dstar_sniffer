@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 from glob import glob
 
-setup(name='DStar Sniffer',
+setup(name='DStarSniffer',
       version='0.1',
       description='DStar repeater controller sniffer',
       url='http://github.com/elielsardanons/dstar-sniffer',
@@ -13,6 +13,11 @@ setup(name='DStar Sniffer',
       install_requires=[
           'aprslib',
       ],
-      scripts=['bin/dstar_sniffer'],
       data_files=[('/etc/dstar_sniffer', glob("config/*.conf"))],
-      zip_safe=False)
+      zip_safe=False,
+      entry_points={
+        'console_scripts': [
+            'dstar_sniffer=dstar_sniffer.dstar_sniffer:main',
+        ],
+      }
+)
