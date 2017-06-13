@@ -25,8 +25,9 @@ dstar_sniffer start
 ```
 ### Logging
 Dstar Sniffer will log all its output to /var/log/dstar_sniffer.log
+If you want to modify this you need to edit the /etc/dstar_sniffer/logging.conf file.
 
-### Configuration file (/etc/dstar_sniffer.conf)
+### Configuration file (/etc/dstar_sniffer/dstar_sniffer.conf)
 ```
 [controller]
 port= <where the icom rpt controller sends all the DV traffic>
