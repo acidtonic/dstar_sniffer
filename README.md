@@ -17,14 +17,12 @@ All the configuration files will be installed in /etc/dstar_sniffer/
 
 ### Run dstar_sniffer
 ```shell
-dstar_sniffer
+usage: dstar_sniffer [start|stop|restart]
 ```
-#### or use this instead to leave it in background
-```shell
-nohup dstar_sniffe &
-```
-A daemon mode will be supported in the near future.
 
+```shell
+dstar_sniffer start
+```
 ### Logging
 Dstar Sniffer will log all its output to /var/log/dstar_sniffer.log
 
