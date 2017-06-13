@@ -17,6 +17,7 @@ class AprsIS:
 		aprs_frame = callsign+'>APK'+sfx+',DSTAR*:!'+position['lat'] + position['lat_coord'] + '\\'+position['long']+position['long_coord']+'a/A=' + position['height'] + message
 		self.logger.info("Sending APRS Frame: " + aprs_frame)
 		try:
-			self.aprs_connection.sendall(aprs.Frame(aprs_frame))
-		except:
-			self.logger.info("Invalid aprs frame: " + aprs_frame)
+			self.aprs_connection.sendall(aprs_frame)
+			self.logger.info("APRS Beacon sent!")
+		except Exception, e:
+			self.logger.info("Invalid aprs frame [%s] - %s" % (aprs_frame, str(e))
