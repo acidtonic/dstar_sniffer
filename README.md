@@ -34,5 +34,7 @@ port= <where the icom rpt controller sends all the DV traffic>
 iface= <name of the interface where the icom rpt controller is connected to the gateway>
 ip= <ip of the icom rpt controller>
 ```
+## Useful links
+[Slow speed data format] (http://www.qsl.net/k/kb9mwr/projects/dv/dstar/Slow%20Data.pdf)
 
 eliel (at) eliel.com.ar
