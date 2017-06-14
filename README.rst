@@ -12,13 +12,13 @@ Install
 -------
 In order to install Dstar sniffer you can do it using *pip*::
 
- Dev:
+ Latest unstable development verion:
  
     pip install git+https://github.com/elielsardanons/dstar_sniffer.git
 
  Release:
   
-     pip install git+https://github.com/elielsardanons/dstar_sniffer.git
+     pip install git+https://github.com/elielsardanons/dstar_sniffer.git@1.0.0
 
 All the configuration files will be installed in /etc/dstar_sniffer/
 
