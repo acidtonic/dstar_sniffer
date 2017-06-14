@@ -54,6 +54,7 @@ class DStarSniffer(Daemon):
 				dstar_stream = dstar.parse(data)
 				if dstar_stream != None:
 					# End of stream!
+					logger.info(dstar_stream)
 					logger.info("STREAM[%s] UR[%s] MY[%s] RPT1[%s] RPT2[%s] MESSAGE[%s]" % (dstar_stream['id'],dstar_stream['ur'], dstar_stream['my'],\
 					dstar_stream['rpt1'], dstar_stream['rpt2'], dstar_stream['message']))
 					logger.info("Start running callbacks for received stream [%s]", dstar_stream['id'])
