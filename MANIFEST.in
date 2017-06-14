@@ -1,0 +1,2 @@
+include dstar_sniffer/config/*.conf
+include README.rst

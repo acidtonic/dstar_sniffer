@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-from glob import glob
 
 setup(name='DStarSniffer',
       version='0.1',
@@ -13,8 +12,11 @@ setup(name='DStarSniffer',
       install_requires=[
           'aprslib',
       ],
-      data_files=[('/etc/dstar_sniffer', glob("config/*.conf"))],
-      zip_safe=False,
+      include_package_data=True,
+      package_data={'/' : ['dstar_sniffer/config/*.conf',]},
+      data_files=[
+		('/etc/dstar_sniffer', [ 'dstar_sniffer/config/dstar_sniffer.conf', 'dstar_sniffer/config/logging.conf' ])
+      ],
       entry_points={
         'console_scripts': [
             'dstar_sniffer=dstar_sniffer.dstar_sniffer:main',
