@@ -8,13 +8,12 @@
 
 import socket
 import sys
-from struct import *
 import logging
 import logging.config
 
 from dstar_lib import DStar
 from aprs_lib import aprsis_dstar_callback
-import net_lib
+from net_lib import parse_packet
 from util_lib.daemon import Daemon
 from util_lib import config
 

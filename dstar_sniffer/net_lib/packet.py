@@ -1,4 +1,5 @@
-
+from struct import unpack
+import socket
 
 # Parses an IP packet, we only need UDP packets.
 def parse_packet(packet, filter_ip, filter_port):
