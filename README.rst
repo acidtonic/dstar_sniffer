@@ -10,9 +10,15 @@ At the moment only kenwood /D74 received positions are sent to APRS-IS.
 
 Install
 -------
-In order to install Dstar sniffer you need to execute ``setup.py`` with a ``install`` parameter.
+In order to install Dstar sniffer you can do it using *pip*::
 
-python setup.py install
+ Latest unstable development verion:
+ 
+    pip install git+https://github.com/elielsardanons/dstar_sniffer.git
+
+ Release:
+  
+     pip install git+https://github.com/elielsardanons/dstar_sniffer.git@1.0.0
 
 All the configuration files will be installed in /etc/dstar_sniffer/
 
