@@ -33,7 +33,7 @@ Run dstar_sniffer
 -----------------
 Dstar sniffer will run like a daemon in the background, to start the application (``usage: dstar_sniffer [start|stop|restart]``) you should execute::
 
-    dstar_sniffer start
+    dstar_sniffer
 
 Logging
 -------
