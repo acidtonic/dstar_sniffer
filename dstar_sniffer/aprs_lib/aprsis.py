@@ -25,7 +25,7 @@ class AprsIS:
 	instance = None
 
 	class __AprsIS:
-		def __init__(self, callsign):
+		def __init__(self):
 			pass
 
 		def add_connection(self, callsign):
