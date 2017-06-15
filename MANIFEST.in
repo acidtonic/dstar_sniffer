@@ -1,2 +1,3 @@
 include dstar_sniffer/config/*.conf
+include dstar_sniffer/config/*.html
 include README.rst
