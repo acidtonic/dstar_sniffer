@@ -17,6 +17,8 @@ def aprsis_dstar_callback(dstar_stream):
 		rpt_callsign = to_aprs_callsign(dstar_stream['rpt1'])
         	aprsIS = AprsIS(rpt_callsign)
 		aprsIS.send_beacon(rpt_callsign, dstar_stream['my'], dstar_stream['sfx'], dstar_stream['message'], dstar_stream['gps']['$GPGGA'])
+	else:
+		logger.info("Nothing to do with: %s /%s" % (dstar_stream['my'], dstar_stream['sfx']))
 
 class AprsIS:
 
