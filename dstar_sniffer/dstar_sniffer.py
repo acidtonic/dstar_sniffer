@@ -61,7 +61,10 @@ class DStarSniffer(Daemon):
 					logger.info("Start running callbacks for received stream [%s]", dstar_stream['id'])
 					for cb in dstar_stream_callback:
 						logger.debug("Running callback: %s" % str(cb.__name__))
-						cb(dstar_stream)
+						try:
+							cb(dstar_stream)
+						except Exception, e:
+							logger.error(str(e))
 					logger.info("End running callbacks for received stream [%s]", dstar_stream['id'])
 
 		logger.info("DStar sniffer ends running.")
