@@ -3,7 +3,7 @@ import time
 
 from last_heard_render import render_last_heard_html
 from dstar_sniffer.util_lib import config
-from dstar_sniffer.aprs_lib import gpgga_get_position
+from dstar_sniffer.aprs_lib.nmea import gpgga_get_position
 
 def last_heard_callback(dstar_stream):
 	last = LastHeard()
