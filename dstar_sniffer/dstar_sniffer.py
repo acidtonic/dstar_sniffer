@@ -11,7 +11,7 @@ import sys
 import logging
 import logging.config
 
-from dstar_lib import DStar
+from dstar_lib import DStar, last_heard_callback
 from aprs_lib import aprsis_dstar_callback
 from net_lib import parse_packet
 from util_lib.daemon import Daemon
