@@ -17,7 +17,7 @@ from net_lib import parse_packet
 from util_lib.daemon import Daemon
 from util_lib import config
 
-class DStarSniffer(Daemon):
+class DStarSniffer():
 	def run(self):
 		# Setup logging
 		logging.config.fileConfig('/etc/dstar_sniffer/logging.conf')
@@ -66,5 +66,7 @@ class DStarSniffer(Daemon):
 		logger.info("DStar sniffer ends running.")
 
 def main():
-	daemon = DStarSniffer('/var/run/dstar_sniffer.pid')
-	daemon.start()
+	#daemon = DStarSniffer('/var/run/dstar_sniffer.pid')
+	#daemon.start()
+	d = DStarSniffer()
+	d.run()
