@@ -52,11 +52,19 @@ class LastHeard:
 				lat_sign = '-'
 			if position['long_coord'] == 'W':
 				long_sign = '-'
-			self.last_heard[cs_user]['latitude'] = lat_sign + str(float(position['lat']) / 10)
-			self.last_heard[cs_user]['longitude'] = long_sign + str(float(position['long']) / 10)
+			self.last_heard[cs_user]['latitude'] = lat_sign + self.gpgga_latitude_to_gmap(position['lat'])
+			self.last_heard[cs_user]['longitude'] = long_sign + self.gpgga_longitude_to_gmap(position['long'])
 		# remove old entries.
 		self.cleanup()
 		self.update_output()
+
+	def gpgga_latitude_to_gmap(self, value):
+		position = str(value)
+		return str(float(float(position[:2]) + float(position[2:4]) / 60 + float(position[5:]) / 3600))
+
+	def gpgga_longitude_to_gmap(self, value):
+		position = str(value)
+		return str(float(float(position[:3]) + float(position[3:5]) / 60 + float(position[6:]) / 3600))
 
 	def cleanup(self):
 		for cs in self.last_heard:
