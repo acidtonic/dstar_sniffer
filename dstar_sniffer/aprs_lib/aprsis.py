@@ -22,17 +22,23 @@ def aprsis_dstar_callback(dstar_stream):
 
 class AprsIS:
 
-	instance = {}
+	instance = None
 
 	class __AprsIS:
 		def __init__(self, callsign):
-			self.logger = logging.getLogger(__name__ + "-" + callsign)
-			self.aprs_connection = aprslib.IS(callsign, passcode_generator(callsign))
-			self.aprs_connection.connect()
+			pass
+
+		def add_connection(self, callsign):
+			self.logger[callsign] = logging.getLogger(__name__ + "-" + callsign)
+			self.aprs_connection[callsign] = aprslib.IS(callsign, passcode_generator(callsign))
+			self.aprs_connection[callsign].connect()
 
 	def __init__(self, callsign):
-		if callsign not in AprsIS.instance:
-			AprsIS.instance[callsign] = AprsIS.__AprsIS(callsign)
+		if AprsIS.instance == None:
+			AprsIS.instance = AprsIS.__AprsIS()
+			
+		if callsign not in AprsIS.instance.aprs_connection:
+			AprsIS.instance.add_connection(callsign)
 
 	def __getattr__(self, name):
 		return getattr(self.instance, name)
@@ -45,10 +51,10 @@ class AprsIS:
 			height = '/A=' + position['height']
 
 		aprs_frame = callsign.strip()+'>APK'+sfx.strip()+',DSTAR*:!'+position['lat'] + position['lat_coord'] + '\\'+position['long']+position['long_coord']+'a' + height + message.strip()
-		self.logger.info("Sending APRS Frame: " + aprs_frame)
+		self.logger[rpt1].info("Sending APRS Frame: " + aprs_frame)
 		try:
-			self.aprs_connection.sendall(aprs_frame)
-			self.logger.info("APRS Beacon sent!")
+			self.aprs_connection[rpt1].sendall(aprs_frame)
+			self.logger[rpt1].info("APRS Beacon sent!")
 		except Exception, e:
-			self.logger.info("Invalid aprs frame [%s] - %s" % (aprs_frame, str(e)))
+			self.logger[rpt1].info("Invalid aprs frame [%s] - %s" % (aprs_frame, str(e)))
 
