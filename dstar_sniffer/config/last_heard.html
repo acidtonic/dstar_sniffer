@@ -116,8 +116,8 @@ table tr:hover td {
 			</tr>
 			</thead>
 			<tbody>
-			<tr>
 			{% for cs in last_heard %}
+			<tr>
 				{% if last_heard[cs]['latitude'] %}
 				<td>
 					<a href="http://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q={{ last_heard[cs]['latitude'] }},%20{{ last_heard[cs]['longitude'] }}%20({{ cs }})&ie=UTF8&z=15">
@@ -132,8 +132,8 @@ table tr:hover td {
 				<td>{{ last_heard[cs]['rpt1'] }}</td>
 				<td>{{ last_heard[cs]['rpt2'] }}</td>
 				<td>{{ last_heard[cs]['time'] }}</td>
-			{% endfor %}
 			</tr>
+			{% endfor %}
 			<tbody>
 		</table>
 	</center>
