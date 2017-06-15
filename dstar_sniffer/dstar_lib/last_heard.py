@@ -52,8 +52,8 @@ class LastHeard:
 				lat_sign = '-'
 			if position['long_coord'] == 'W':
 				long_sign = '-'
-			self.last_heard[cs_user]['latitude'] = lat_sign + position['lat'] 
-			self.last_heard[cs_user]['longitude'] = long_sign + position['long'] 
+			self.last_heard[cs_user]['latitude'] = lat_sign + str(float(position['lat']) / 10)
+			self.last_heard[cs_user]['longitude'] = long_sign + str(float(position['long']) / 10)
 		# remove old entries.
 		self.cleanup()
 		self.update_output()
