@@ -25,6 +25,9 @@ class AprsIS:
 	instance = None
 
 	class __AprsIS:
+		aprs_connection = {}
+		logger = {}
+
 		def __init__(self):
 			pass
 
