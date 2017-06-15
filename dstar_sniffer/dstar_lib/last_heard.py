@@ -43,6 +43,16 @@ class LastHeard:
 		self.last_heard[cs_user]['message'] = dstar_stream['message']
 		self.last_heard[cs_user]['gps'] = dstar_stream['gps']
 		self.last_heard[cs_user]['raw'] = dstar_stream['slow_speed_data']
+		if '$GPGGA' in dstar_stream['gps']:
+			position = gpgga_get_position(dstar_stream['gps']['$GPGGA'])
+			lat_sign = ''
+			long_coord = ''
+			if position['lat_coord'] == 'S':
+				lat_sign = '-'
+			if position['long_coord'] == 'W':
+				long_sign = '-'
+			self.last_heard[cs_user]['latitude'] = lat_sign + position['lat'] 
+			self.last_heard[cs_user]['longitude'] = long_sign + position['long'] 
 		# remove old entries.
 		self.cleanup()
 		self.update_output()
