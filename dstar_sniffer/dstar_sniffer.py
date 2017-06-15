@@ -37,6 +37,7 @@ class DStarSniffer(Daemon):
 		# be executed once we parse the full dstar stream.
 		dstar_stream_callback = []
 		dstar_stream_callback.append(aprsis_dstar_callback) # Upload received positions to APRS-IS
+		dstar_stream_callback.append(last_heard_callback) # Record last heard stations
 
 		try:
 			# Start listening to every UDP packet.
