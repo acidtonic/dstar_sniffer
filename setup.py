@@ -16,7 +16,12 @@ setup(name='DStarSniffer',
       include_package_data=True,
       package_data={'/' : ['dstar_sniffer/config/*.conf',]},
       data_files=[
-		('/etc/dstar_sniffer', [ 'dstar_sniffer/config/dstar_sniffer.conf', 'dstar_sniffer/config/logging.conf' ])
+		('/etc/dstar_sniffer',
+			[
+			'dstar_sniffer/config/dstar_sniffer.conf',
+			'dstar_sniffer/config/logging.conf',
+			'dstar_sniffer/config/last_heard.html',
+			 ])
       ],
       entry_points={
         'console_scripts': [
