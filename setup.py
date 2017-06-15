@@ -11,6 +11,7 @@ setup(name='DStarSniffer',
       keywords='hamradio dstar aprs icom kenwood d74',
       install_requires=[
           'aprslib',
+          'jinja2',
       ],
       include_package_data=True,
       package_data={'/' : ['dstar_sniffer/config/*.conf',]},

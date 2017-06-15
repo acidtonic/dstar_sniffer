@@ -1,0 +1,24 @@
+<html>
+	<body>
+		<table>
+			<tr>
+				<td>MY</td>
+				<td>MESSAGE</td>
+				<td>UR</td>
+				<td>RPT1</td>
+				<td>RPT2</td>
+				<td>Time</td>
+			</tr>
+			<tr>
+			{% for cs in last_heard %}
+				<td>{{ last_heard[cs]['my'] }}</td>
+				<td>{{ last_heard[cs]['message'] }}</td>
+				<td>{{ last_heard[cs]['ur'] }}</td>
+				<td>{{ last_heard[cs]['rpt1'] }}</td>
+				<td>{{ last_heard[cs]['rpt2'] }}</td>
+				<td>{{ last_heard[cs]['time'] }}</td>
+			{% endfor %}
+			</tr>
+		</table>
+	</body>
+</html>
