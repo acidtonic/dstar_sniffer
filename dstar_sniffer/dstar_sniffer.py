@@ -17,7 +17,7 @@ from net_lib import parse_packet
 from util_lib.daemon import Daemon
 from util_lib import config
 
-class DStarSniffer():
+class DStarSniffer(Daemon):
 	def run(self):
 		# Setup logging
 		logging.config.fileConfig('/etc/dstar_sniffer/logging.conf')
