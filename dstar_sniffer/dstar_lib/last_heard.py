@@ -60,11 +60,11 @@ class LastHeard:
 
 	def gpgga_latitude_to_gmap(self, value):
 		position = str(value)
-		return str(float(float(position[:2]) + float(position[2:4]) / 60 + float(position[5:]) / 3600))
+		return str(float(float(position[:2]) + float(position[2:]) / 60))
 
 	def gpgga_longitude_to_gmap(self, value):
 		position = str(value)
-		return str(float(float(position[:3]) + float(position[3:5]) / 60 + float(position[6:]) / 3600))
+		return str(float(float(position[:3]) + float(position[3:]) / 60))
 
 	def cleanup(self):
 		for cs in self.last_heard:
