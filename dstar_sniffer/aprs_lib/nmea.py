@@ -11,6 +11,15 @@ def gpgga_get_position(gpgga_sentence):
 		position['height'] = str(int(float(sentence[11]) * 3.28084)).zfill(6)
 	return position
 
+def dprs_get_position(dprs_sentence):
+	pos = re.match(".+:!([0-9]{4}\.[0-9]{2})([SN]).([0-9]{5}\.[0-9]{2})([EW]).+", dprs_sentence)
+	position = {}
+	position['lat'] = pos.group(1)
+	position['lat_coord'] = pos.group(2)
+	position['long'] = pos.group(3)
+	position['long_coord'] = pos.group(4)
+	return position
+
 if __name__ == "__main__":
-	print gpgga_get_position("$GPGGA,,3434.28,S,05829.35,W,,,,176,M,,,,,*39")
+	print dprs_get_position("LU1ALY-7>API51,DSTAR*:!3434.27S/05829.35W[/A=000083ELIEL")
 

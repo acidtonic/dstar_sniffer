@@ -3,7 +3,7 @@ import time
 
 from last_heard_render import render_last_heard_html
 from dstar_sniffer.util_lib import config
-from dstar_sniffer.aprs_lib.nmea import gpgga_get_position
+from dstar_sniffer.aprs_lib.nmea import gpgga_get_position, dprs_get_position
 
 def last_heard_callback(dstar_stream):
 	last = LastHeard()
@@ -45,8 +45,12 @@ class LastHeard:
 		self.last_heard[cs_user]['message'] = dstar_stream['message']
 		self.last_heard[cs_user]['gps'] = dstar_stream['gps']
 		self.last_heard[cs_user]['raw'] = dstar_stream['slow_speed_data']
+		position = None
 		if '$GPGGA' in dstar_stream['gps']:
 			position = gpgga_get_position(dstar_stream['gps']['$GPGGA'])
+		if 'DPRS' in dstar_stream['gps']:
+			position = dprs_get_position(dstar_stream['gps']['DPRS'])
+		if position:
 			lat_sign = ''
 			long_coord = ''
 			if position['lat_coord'] == 'S':
@@ -55,6 +59,7 @@ class LastHeard:
 				long_sign = '-'
 			self.last_heard[cs_user]['latitude'] = lat_sign + self.gpgga_latitude_to_gmap(position['lat'])
 			self.last_heard[cs_user]['longitude'] = long_sign + self.gpgga_longitude_to_gmap(position['long'])
+		
 		# remove old entries.
 		self.cleanup()
 		self.update_output()
