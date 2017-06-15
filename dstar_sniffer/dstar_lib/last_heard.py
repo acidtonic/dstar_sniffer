@@ -32,8 +32,9 @@ class LastHeard:
 	def add(self, dstar_stream):
 		cs_user = dstar_stream['my'].strip()
 
-		if cs_user not in self.last_heard:
-			self.last_heard[cs_user] = {}
+		if cs_user in self.last_heard:
+			del self.last_heard[cs_user]
+		self.last_heard[cs_user] = {}
 
 		self.last_heard[cs_user]['time'] = datetime.now()
 		self.last_heard[cs_user]['ur'] = dstar_stream['ur']

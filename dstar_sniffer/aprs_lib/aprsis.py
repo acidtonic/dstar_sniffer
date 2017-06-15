@@ -49,7 +49,7 @@ class AprsIS:
 		return getattr(self.instance, name)
 
 	def send_beacon_dprs(self, rpt1, dprs_sentence):
-		aprs_frame = dprs_sentence.split(",", 1)[2]
+		aprs_frame = dprs_sentence.split(",", 1)[1]
 		self.logger[rpt1].info("Sending APRS Frame from DPRS: " + aprs_frame)
 		try:
 			self.aprs_connection[rpt1].sendall(aprs_frame)
