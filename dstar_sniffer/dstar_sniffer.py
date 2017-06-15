@@ -66,7 +66,5 @@ class DStarSniffer():
 		logger.info("DStar sniffer ends running.")
 
 def main():
-	#daemon = DStarSniffer('/var/run/dstar_sniffer.pid')
-	#daemon.start()
-	d = DStarSniffer()
-	d.run()
+	daemon = DStarSniffer('/var/run/dstar_sniffer.pid')
+	daemon.start()
