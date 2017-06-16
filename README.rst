@@ -18,6 +18,7 @@ In order to install Dstar sniffer you could::
      python setup.py install
      
 or use *pip* and run::
+
      sudo pip install --upgrade git+https://github.com/elielsardanons/dstar_sniffer.git@1.0
 
 All the configuration files will be installed in /etc/dstar_sniffer/
