@@ -73,7 +73,7 @@ class LastHeard:
 		return str(float(float(position[:3]) + float(position[3:]) / 60))
 
 	def cleanup(self):
-		for cs in self.last_heard:
+		for cs in self.last_heard.keys():
 			diff = time.mktime(datetime.now().timetuple()) - time.mktime(self.last_heard[cs]['time'].timetuple())
 			if (diff / 60) > 120:
 				del self.last_heard[cs]
