@@ -6,5 +6,8 @@ def render(tpl_path, context):
 	return jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context)
 
 def render_last_heard_html(last_heard):
-	return render('/etc/dstar_sniffer/last_heard.html', { 'last_heard' : last_heard })
+	sorted_last_heard = {}
+	for cs in sorted(last_heard, key=lambda name: last_heard[name]['time'], reverse=True):
+		sorted_last_heard[cs] = last_heard[cs]
+	return render('/etc/dstar_sniffer/last_heard.html', { 'last_heard' : sorted_last_heard })
 

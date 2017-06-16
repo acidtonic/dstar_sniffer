@@ -84,22 +84,3 @@ class LastHeard:
 		html_file.write(render_last_heard_html(self.last_heard))
 		html_file.close()
 
-if __name__ == "__main__":
-	data = {}
-	data['slow_speed_data'] = '%b\x85@ElielA, BueBnos ACires ffffffffffffffffffffffffffffffffffff%b\x855$GPGG5A,,34534.285,S,055829.355,W,,5,,1765,M,,,5,,*395\r\n$GP%b\x855RMC,,5A,34354.28,5S,058529.355,W,,,5,,,*354\r\nLU51ALY 5 ,   %b\x855     5     5     4  \r\nf%\x1a\xc6'
-	data['rpt2'] = 'LU3AOC G'
-	data['sfx'] = 'D74 '
-	data['rpt1'] = 'LU3AOC B'
-	data['ur'] = 'CQCQCQ  '
-	data['message'] = 'Eliel, Buenos Aires '
-	data['my'] = 'LU1ALY  '
-	data['id'] = 441
-	data['gps'] = {}
-	data['gps']['$GPGGA'] = '$GPGGA,,3434.28,S,05829.35,W,,,,176,M,,,,,*39'
-	data['gps']['$GPRMC'] = '$GPRMC,,A,3434.28,S,05829.35,W,,,,,,*34'
-	last = LastHeard()
-	last.add(data)
-	time.sleep(2)
-	last.add(data)
-	last.update_output()
-
