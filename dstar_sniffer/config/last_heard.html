@@ -121,11 +121,11 @@ table tr:hover td {
 				{% if last_heard[cs]['latitude'] %}
 				<td>
 					<a href="http://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q={{ last_heard[cs]['latitude'] }},%20{{ last_heard[cs]['longitude'] }}%20({{ cs }})&ie=UTF8&z=15">
-						{{ last_heard[cs]['my'] }}
+						{{ last_heard[cs]['my'] }} / {{ last_heard[cs]['sfx'] }}
 					</a>
 				</td>
 				{% else %}
-					<td>{{ last_heard[cs]['my'] }}</td>
+					<td>{{ last_heard[cs]['my'] }} / {{ last_heard[cs]['sfx'] }}</td>
 				{% endif %}
 				<td>{{ last_heard[cs]['message'] }}</td>
 				<td>{{ last_heard[cs]['ur'] }}</td>
