@@ -1,4 +1,4 @@
-DStar Repeater Controller UDP Sniffer
+DStar Repeater Controller UDP Sniffer (latest release v1.1)
 =====================================
 This project tries to send every position received in a dstar repeater to aprs-is.
 
@@ -12,14 +12,14 @@ Install
 -------
 In order to install Dstar sniffer you could::
 
-     wget https://github.com/elielsardanons/dstar_sniffer/files/1081265/DStarSniffer-1.0.tar.gz
-     tar xvzf DStarSniffer-1.0.tar.gz
-     cd DStarSniffer-1.0/
+     wget https://github.com/elielsardanons/dstar_sniffer/files/1081265/DStarSniffer-1.1.tar.gz
+     tar xvzf DStarSniffer-1.1.tar.gz
+     cd DStarSniffer-1.1/
      python setup.py install
      
 or use *pip* and run::
 
-     sudo pip install --upgrade git+https://github.com/elielsardanons/dstar_sniffer.git@1.0
+     sudo pip install --upgrade git+https://github.com/elielsardanons/dstar_sniffer.git@1.1
 
 All the configuration files will be installed in /etc/dstar_sniffer/
 
