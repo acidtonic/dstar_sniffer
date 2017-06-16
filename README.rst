@@ -37,12 +37,20 @@ Run dstar_sniffer
 -----------------
 Dstar sniffer will run like a daemon in the background, to start the application you should execute::
 
-    dstar_sniffer
+    dstar_sniffer start
+   
+to *stop* dstar_sniffer run::
+
+    dstar_sniffer stop
+    
+if for some reason you want to *restart* dstar_sniffer, run::
+
+    dstar_sniffer start
 
 Logging
 -------
 Dstar Sniffer will log all its output to ``/var/log/dstar_sniffer.log``
-If you want to modify this you need to edit the ``/etc/dstar_sniffer/logging.conf`` file.
+If you want to modify this you need to edit the file ``/etc/dstar_sniffer/logging.conf``.
 
 
 Useful links
