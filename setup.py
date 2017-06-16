@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='DStarSniffer',
-      version='pre-1.0',
+      version='1.0',
       description='DStar repeater controller sniffer',
       url='http://github.com/elielsardanons/dstar-sniffer',
       author='Eliel Sardanons LU1ALY',
