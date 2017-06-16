@@ -12,9 +12,9 @@ Install
 -------
 In order to install Dstar sniffer you can should::
 
-     wget https://github.com/elielsardanons/dstar_sniffer/files/1075095/DStarSniffer-pre-1.0.tar.gz
-     tar xvzf DStarSniffer-0.1.tar.gz
-     cd DStarSniffer-pre-1.0/
+     wget https://github.com/elielsardanons/dstar_sniffer/files/1081265/DStarSniffer-1.0.tar.gz
+     tar xvzf DStarSniffer-1.0.tar.gz
+     cd DStarSniffer-1.0/
      python setup.py install
      
 All the configuration files will be installed in /etc/dstar_sniffer/
