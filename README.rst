@@ -10,7 +10,7 @@ At the moment only kenwood /D74 received positions are sent to APRS-IS.
 
 Install
 -------
-In order to install Dstar sniffer you can should::
+In order to install Dstar sniffer you should::
 
      wget https://github.com/elielsardanons/dstar_sniffer/files/1081265/DStarSniffer-1.0.tar.gz
      tar xvzf DStarSniffer-1.0.tar.gz
@@ -31,7 +31,7 @@ All the application configuration is in one file (/etc/dstar_sniffer/dstar_sniff
 
 Run dstar_sniffer
 -----------------
-Dstar sniffer will run like a daemon in the background, to start the application (``usage: dstar_sniffer [start|stop|restart]``) you should execute::
+Dstar sniffer will run like a daemon in the background, to start the application you should execute::
 
     dstar_sniffer
 
