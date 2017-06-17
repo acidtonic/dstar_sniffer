@@ -24,16 +24,19 @@ class DStar:
 			return False
 
 	def valid_dprs_sentence(self, sentence):
+		dprs = sentence.split(",", 1)[1]
+		if dprs[-1:] != '\r':
+			dprs = dprs + '\r'
 		icomcrc = 0xffff
-		for l in range(0, len(sentence)):
-			ch = ord(sentence[l]) & 0xff
+		for l in range(0, len(dprs)):
+			ch = ord(dprs[l]) & 0xff
 			for i in range(0, 8):
-				xorflag = ((icomcrc ^ ch) & 0x01) == 0x01
-				icomcrc = icomcrc >> 1
+				xorflag = (((icomcrc ^ ch) & 0x01) == 0x01)
+				icomcrc = (icomcrc >> 1) & 0x7fff
 				if xorflag:
 					icomcrc = icomcrc ^ 0x8408
-				ch = ch >> 1
-		return '$$CRC' + str(hex((~icomcrc) & 0xffff)).upper() == sentence.split(",")[0]
+				ch = (ch >> 1) & 0x7f
+		return "$$CRC%04X" % ((~icomcrc) & 0xffff) == sentence.split(",", 1)[0]
 
 	def valid_free_text_sequence(self, last_letter, current_letter):
 		idx1 = self.free_text_sequence.index(last_letter)
@@ -164,3 +167,4 @@ class DStar:
 						# just another part of the stream
 						self.slow_speed_data(stream_id, self.scrambler(packet[data_len-3], packet[data_len-2], packet[data_len-1]))
 						return None
+
