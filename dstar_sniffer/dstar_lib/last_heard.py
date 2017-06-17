@@ -33,7 +33,7 @@ class LastHeard:
 		cs_user = dstar_stream['my'].strip()
 
 		if cs_user in self.last_heard:
-			del self.last_heard[cs_user]
+			self.last_heard.pop(cs_user, None)
 		self.last_heard[cs_user] = {}
 
 		self.last_heard[cs_user]['time'] = datetime.now()
@@ -76,7 +76,7 @@ class LastHeard:
 		for cs in self.last_heard.keys():
 			diff = time.mktime(datetime.now().timetuple()) - time.mktime(self.last_heard[cs]['time'].timetuple())
 			if (diff / 60) > 120:
-				del self.last_heard[cs]
+				self.last_heard.pop(cs, None)
 
 	# write an html based on the last_heard info.
 	def update_output(self):
