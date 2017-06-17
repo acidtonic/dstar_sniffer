@@ -33,7 +33,7 @@ class DStar:
 				if xorflag:
 					icomcrc = icomcrc ^ 0x8408
 				ch = ch >> 1
-		return hex((~icomcrc) & 0xffff)
+		return '$$CRC' + str(hex((~icomcrc) & 0xffff)).upper() == sentence.split(",")[0]
 
 	def valid_free_text_sequence(self, last_letter, current_letter):
 		idx1 = self.free_text_sequence.index(last_letter)
