@@ -11,7 +11,7 @@ def to_aprs_callsign(dstar_callsign):
 def aprsis_dstar_callback(dstar_stream):
 	logger =  logging.getLogger(__name__)
 
-	if 'D74' in dstar_stream['sfx'] and '$GPGGA' in dstar_stream['gps']:
+	if '$GPGGA' in dstar_stream['gps']:
 		# detect kenwood HTs and send aprs beacons.
 		# Connect to APRS-IS network if not already connected for the specific rpt module.
 		frame = get_beacon_gpgga(dstar_stream['my'], dstar_stream['sfx'], dstar_stream['message'], dstar_stream['gps']['$GPGGA'])
