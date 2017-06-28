@@ -1,4 +1,5 @@
 import logging
+import string
 
 class DStar:
 
@@ -66,7 +67,10 @@ class DStar:
 				for i in range(0, 5):
 					c = c + 1
 					position = position + 1
-					msg = msg + content[c]
+					if content[c] in string.printable:
+						msg = msg + content[c]
+					else:
+						msg = msg + '?'
 				if self.free_text_sequence.index(last_letter) == len(self.free_text_sequence) - 1:
 					# End of supported string sequence.
 					break
