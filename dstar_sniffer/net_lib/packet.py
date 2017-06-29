@@ -29,7 +29,7 @@ def parse_packet(packet, source_ip = None, source_port = None, destination_ip = 
 		# UDP packets
 		if protocol == 17:
 
-			if destination_ip != None and d_addr != destionation_ip:
+			if destination_ip != None and d_addr != destination_ip:
 				return None
 			if source_ip != None and s_addr != source_ip:
 				return None
