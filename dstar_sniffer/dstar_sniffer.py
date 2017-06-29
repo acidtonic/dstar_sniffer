@@ -70,7 +70,7 @@ class DStarSniffer(Daemon):
 				else:
 					data = parse_packet(packet, destination_port = 20000, destination_ip = controller_ip)
 					if data != None:
-						logger.info("UDP stream (%s:%s): %s" % (controller_ip, 20000, data))
+						logger.debug("UDP stream (%s:%s): %s" % (controller_ip, 20000, data))
 			except Exception, e:
 				logger.error(str(e))
 		logger.info("DStar sniffer ends running.")
