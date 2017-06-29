@@ -68,7 +68,7 @@ class DStarSniffer(Daemon):
 					logger.info("End running callbacks for received stream [%s]", dstar_stream['id'])
 			else:
 				data = parse_packet(packet, None, 20000)
-				print "UDP stream: " + data
+				logger.info("UDP stream: " + data)
 		logger.info("DStar sniffer ends running.")
 
 def main():
