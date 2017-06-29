@@ -32,6 +32,7 @@ class DStarSniffer(Daemon):
 
 		# Initialize the dstar packet manipulation class
 		dstar = DStar()
+		dstar_tocontroller = DStar()
 
 		# Register a dstar stream callback, this will
 		# be executed once we parse the full dstar stream.
@@ -70,7 +71,8 @@ class DStarSniffer(Daemon):
 				else:
 					data = parse_packet(packet, destination_port = 20000, destination_ip = controller_ip)
 					if data != None:
-						logger.debug("UDP stream (%s:%s): %s" % (controller_ip, 20000, data))
+						dstar_stream_tocontroller = dstar_tocontroller.parse(data)
+						logger.debug("UDP stream to_controller: %s" % (dstar_stream_tocontroller))
 			except Exception, e:
 				logger.error(str(e))
 		logger.info("DStar sniffer ends running.")
