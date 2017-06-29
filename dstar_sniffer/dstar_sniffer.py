@@ -51,7 +51,7 @@ class DStarSniffer(Daemon):
 		while True:
 			try:
 				packet = s.recvfrom(65565)
-				data = parse_packet(packet, controller_ip, controller_port)
+				data = parse_packet(packet, source_ip = controller_ip, destination_port = controller_port)
 				if data != None:
 					dstar_stream = dstar.parse(data)
 					if dstar_stream != None:
@@ -68,7 +68,7 @@ class DStarSniffer(Daemon):
 								logger.error(str(e))
 						logger.info("End running callbacks for received stream [%s]", dstar_stream['id'])
 				else:
-					data = parse_packet(packet, None, 20000)
+					data = parse_packet(packet, destination_port = 20000, destination_ip = controller_ip)
 					if data != None:
 						logger.info("UDP stream: " + data)
 			except Exception, e:

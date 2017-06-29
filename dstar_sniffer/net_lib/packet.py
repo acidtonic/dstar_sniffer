@@ -2,7 +2,7 @@ from struct import unpack
 import socket
 
 # Parses an IP packet, we only need UDP packets.
-def parse_packet(packet, filter_ip, filter_port):
+def parse_packet(packet, source_ip = None, source_port = None, destination_ip = None, destination_port = None):
 	#packet string from tuple
 	packet = packet[0]
 
@@ -27,17 +27,25 @@ def parse_packet(packet, filter_ip, filter_port):
 		d_addr = socket.inet_ntoa(iph[9]);
 
 		# UDP packets
-		if protocol == 17 and (filter_ip == None or s_addr == filter_ip):
+		if protocol == 17:
+
+			if destination_ip != None and d_addr != destionation_ip:
+				return None
+			if source_ip != None and s_addr != source_ip:
+				return None
+
 			u = iph_length + eth_length
 			udph_length = 8
 			udp_header = packet[u:u+8]
 			udph = unpack('!HHHH' , udp_header)
 
-			source_port = udph[0]
+			src_port = udph[0]
 			dest_port = udph[1]
 			length = udph[2]
 
-			if (filter_port != None and dest_port != filter_port):
+			if (destination_port != None and dest_port != destination_port):
+				return None
+			if (source_port != None and source_port != src_port):
 				return None
 
 			h_size = eth_length + iph_length + udph_length
