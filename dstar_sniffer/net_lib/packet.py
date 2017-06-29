@@ -27,7 +27,7 @@ def parse_packet(packet, filter_ip, filter_port):
 		d_addr = socket.inet_ntoa(iph[9]);
 
 		# UDP packets
-		if protocol == 17 and (filter_ip != None and s_addr == filter_ip):
+		if protocol == 17 and (filter_ip == None or s_addr == filter_ip):
 			u = iph_length + eth_length
 			udph_length = 8
 			udp_header = packet[u:u+8]
