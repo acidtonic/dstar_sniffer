@@ -45,7 +45,7 @@ to *stop* dstar_sniffer run::
     
 if for some reason you want to *restart* dstar_sniffer, run::
 
-    dstar_sniffer start
+    dstar_sniffer restart
 
 Logging
 -------
